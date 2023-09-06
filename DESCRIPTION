@@ -1,0 +1,16 @@
+Type: Compendium
+Package: Intro2RecordLinkage
+Title: Introduction to Record Linkage Group Exercises
+Version: 0.0.1
+Authors@R: 
+    person("Tony", "Stone", , "tony-stone@users.noreply.github.com", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0167-3800"))
+Description: Group exercise for the Introduction to Record Linkage course,
+    13 & 14 Sept 2023
+License: MIT
+Depends: 
+    renv,
+    rmarkdown
+Encoding: UTF-8
+LazyData: true
