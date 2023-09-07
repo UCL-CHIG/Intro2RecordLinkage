@@ -10,7 +10,7 @@ Description: Group exercise for the Introduction to Record Linkage course,
     13 & 14 Sept 2023
 License: MIT
 Depends: 
-    renv,
+    readr,
     rmarkdown
 Encoding: UTF-8
 LazyData: true
