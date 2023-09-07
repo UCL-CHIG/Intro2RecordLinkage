@@ -2,10 +2,111 @@
 title: "Introduction to Record Linkage"
 ---
 
-## Quarto
+```{r}
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+library(readr)
+
+census_clean <- read_csv("data-raw/Census_clean.csv",
+                         show_col_types = FALSE)
+
+prd_clean <- read_csv("data-raw/PRD_clean.csv",
+                         show_col_types = FALSE)
+
+```
+
+## Group activity 2: Deterministic linkage
+
+Some of the harmonisation and standardisation methods discussed in the last 
+group session have been conducted on the files discussed previously.
+
+The first few rows of `Census_clean.csv` looks like:
 
 ```{r}
-1 + 1
+
+head(census_clean)
+
 ```
+
+and, similarly, for `Prd_clean.csv`:
+
+```{r}
+
+head(prd_clean)
+
+```
+
+__In the following group activities, consider the available identifiers (except
+`PERSON_ID` and `PRD_ID`) that may be compared across the two files.__
+
+### 2.1: Agree upon a simple deterministic linkage algorithm based on one rule.
+
+e.g., _classify as a link if there is agreement on date of birth and postcode_
+	
+1.  Discuss how you would treat missing values.
+
+1.  Consider whether you want to include any non-disagreement clauses, e.g. 
+_agree on date of birth and postcode, as long as there is no disagreement on 
+sex_.
+
+1.  Discuss what your algorithm means in reality. Which record pairs might be 
+excluded from matching (potential missed matches)? 
+
+1.  Can you think of any people who might be linked in error using your 
+algorithm (false matches)?
+
+### 2.2: Estimate uniqueness
+
+How many people (within the Census dataset) share the 
+same values of the fields in your deterministic linkage rule?
+
+e.g. _how many people share the same values of date of birth and postcode?_
+
+### 2.3: Extra activity (if you have time)
+
+Discuss a multi-step deterministic linkage algorithm and how this might (or 
+might not) address the issues you've considered above.
+
+---
+
+## Group activity 3: Blocking
+
+### 3.1: Calculating the comparison space
+
+Thinking about the `Census` and `PRD` files, discuss the following in your 
+groups: 
+
+1.  How many records are there in the Census dataset ($n_{\scriptsize Census}$)? 
+
+1.  How many records are there in the PRD dataset ($n_{\scriptsize PRD}$)? 
+
+1.  How many records would you be comparing in total 
+($n_{\scriptsize Census} \times n_{\scriptsize PRD}$)? 
+
+### 3.2: Blocking strategy
+
+1.  Specify a blocking strategy to reduce the comparison space e.g. _only 
+compare records if they agree on date of birth_
+    *  __Tip: Consider using partial variables (e.g. first initial of name, or 
+_outward_ component of postcode (the bit before the space).__
+
+1.  Work out how many pairs would be returned by your blocking strategy. You 
+can either try merging the data together yourself, or use the look up table 
+provided (“Blocking.csv”), which contains a list of some possible blocking 
+strategies.
+
+1.  Determine which patterns of agreement would be excluded by your strategy. 
+
+### Aside: Software
+
+Blocking can be implemented in almost any database or statistical 
+analysis software: 
+
+*  `JOINBY` command in Stata
+*  `MERGE` commands in other statistical software (R, SPSS, SAS)
+*  `JOIN` commands in database software (Access, SQL, SAS)
+*  also `LOOKUP` and `ARRAY` commands in spreadsheets and matrix software 
+(e.g. Excel, Matlab, Mata) but these are more suited to data that are already 
+linked
+
+__BUT be careful with how inbuilt functions handle missing values; they are 
+often treated just like any other value.__
